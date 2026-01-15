@@ -1,0 +1,11 @@
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -271,7 +271,7 @@ $(subdir-builtin): $(obj)/%/built-in.o: $(obj)/% ;
+ # Rule to compile a set of .o files into one .o file
+ #
+ quiet_cmd_link_l_target = AR      $@
+-cmd_link_l_target = rm -f $@; $(AR) $(EXTRA_ARFLAGS) rcs $@ $(lib-y)
++cmd_link_l_target = rm -f $@; if [ -n "$(lib-y)" ]; then $(AR) $(EXTRA_ARFLAGS) rcs $@ $(lib-y); else touch $@; fi
+ 
+ $(lib-target): $(lib-y) FORCE
+ 	$(call if_changed,link_l_target)
