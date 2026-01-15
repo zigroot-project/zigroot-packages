@@ -1,0 +1,15 @@
+# Version 6.6.0 - Rockchip kernel develop-6.6 branch
+
+[release]
+version = "6.6.0"
+released = "2025-01-15"
+
+[source]
+git = "https://github.com/rockchip-linux/kernel.git"
+branch = "develop-6.6"
+
+[build]
+patches = [
+    "patches/luckfox-pico-6.6-support.patch",
+    "patches/luckfox-6.6-fixes.patch",
+]

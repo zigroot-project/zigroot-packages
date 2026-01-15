@@ -1,0 +1,63 @@
+diff --git a/arch/arm/boot/dts/rockchip/Makefile b/arch/arm/boot/dts/rockchip/Makefile
+index 7223a98f9..2aeb98634 100644
+--- a/arch/arm/boot/dts/rockchip/Makefile
++++ b/arch/arm/boot/dts/rockchip/Makefile
+@@ -46,6 +46,20 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += \
+ 	rv1106g-smart-door-lock-rmsl-v12.dtb \
+ 	rv1106g-uvc-demo-v10.dtb \
+ 	rv1106g-uvc-demo-v10-spi-nor.dtb \
++	rv1103g-luckfox-pico.dtb \
++	rv1103g-luckfox-pico-mini.dtb \
++	rv1103g-luckfox-pico-plus.dtb \
++	rv1103g-luckfox-pico-webbee.dtb \
++	rv1106g-luckfox-pico-86panel.dtb \
++	rv1106g-luckfox-pico-86panel-w.dtb \
++	rv1106g-luckfox-pico-pi.dtb \
++	rv1106g-luckfox-pico-pi-w.dtb \
++	rv1106g-luckfox-pico-pro-max.dtb \
++	rv1106g-luckfox-pico-pro-max-fastboot.dtb \
++	rv1106g-luckfox-pico-ultra.dtb \
++	rv1106g-luckfox-pico-ultra-fastboot.dtb \
++	rv1106g-luckfox-pico-ultra-w.dtb \
++	rv1106g-luckfox-pico-zero.dtb \
+ 	rv1108-elgin-r1.dtb \
+ 	rv1108-evb.dtb \
+ 	rv1126-edgeble-neu2-io.dtb \
+diff --git a/drivers/soc/rockchip/fiq_debugger/fiq_debugger.c b/drivers/soc/rockchip/fiq_debugger/fiq_debugger.c
+index 59eeaf1b3..55b0b275c 100644
+--- a/drivers/soc/rockchip/fiq_debugger/fiq_debugger.c
++++ b/drivers/soc/rockchip/fiq_debugger/fiq_debugger.c
+@@ -1061,7 +1061,7 @@ static void fiq_debugger_fiq(struct fiq_glue_handler *h,
+ {
+ 	struct fiq_debugger_state *state =
+ 		container_of(h, struct fiq_debugger_state, handler);
+-	unsigned int this_cpu = THREAD_INFO(svc_sp)->cpu;
++	unsigned int this_cpu = raw_smp_processor_id();
+ 	bool need_irq;
+ 
+ 	need_irq = fiq_debugger_handle_uart_interrupt(state, this_cpu, regs,
+diff --git a/drivers/video/rockchip/rga3/rga_mm.c b/drivers/video/rockchip/rga3/rga_mm.c
+index b130e6e60..12f0f3516 100644
+--- a/drivers/video/rockchip/rga3/rga_mm.c
++++ b/drivers/video/rockchip/rga3/rga_mm.c
+@@ -92,6 +92,11 @@ static int rga_get_user_pages_from_vma(struct page **pages, unsigned long Memory
+ 		}
+ 		pte = pte_offset_map_lock(current_mm, pmd,
+ 					  (Memory + i) << PAGE_SHIFT, &ptl);
++		if (!pte) {
++			rga_err("page[%d] failed to map pte\n", i);
++			ret = RGA_OUT_OF_RESOURCES;
++			break;
++		}
+ 		if (pte_none(*pte)) {
+ 			rga_err("page[%d] failed to get pte\n", i);
+ 			pte_unmap_unlock(pte, ptl);
+diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
+index a78a4adf7..03ccb501d 100644
+--- a/mm/pgtable-generic.c
++++ b/mm/pgtable-generic.c
+@@ -380,3 +380,4 @@ pte_t *__pte_offset_map_lock(struct mm_struct *mm, pmd_t *pmd,
+ 	pte_unmap_unlock(pte, ptl);
+ 	goto again;
+ }
++EXPORT_SYMBOL(__pte_offset_map_lock);

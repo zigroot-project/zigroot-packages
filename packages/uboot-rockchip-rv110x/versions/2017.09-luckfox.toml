@@ -1,0 +1,25 @@
+# U-Boot from Luckfox SDK (based on Rockchip vendor u-boot)
+[release]
+version = "2017.09-luckfox"
+released = "2024-01-01"
+
+[source]
+type = "git"
+url = "https://github.com/LuckfoxTECH/luckfox-pico.git"
+branch = "main"
+path = "sysdrv/source/uboot/u-boot"
+
+# Required binary blobs from rkbin (DDR init + SPL)
+[blobs.rv1106]
+ddr = { url = "https://github.com/rockchip-linux/rkbin/raw/master/bin/rv11/rv1106_ddr_924MHz_v1.15.bin", sha256 = "79691e4456e27d143e1d2a01c142246b84d146b015d8868be2794765d08832da" }
+spl = { url = "https://github.com/rockchip-linux/rkbin/raw/master/bin/rv11/rv1106_spl_v1.02.bin", sha256 = "37d44c6a5ed12a809fcdf07fc88a09f2a85913ab9bf510514ee96e4eb90f1acb" }
+
+[blobs.rv1103b]
+ddr = { url = "https://github.com/rockchip-linux/rkbin/raw/master/bin/rv11/rv1103b_ddr_924MHz_v1.05.bin", sha256 = "9907da36f1da5cffa594918aa9f1ed9210e5e4d3eea719f49fe4cb02a68973a8" }
+spl = { url = "https://github.com/rockchip-linux/rkbin/raw/master/bin/rv11/rv1103b_spl_v1.00.bin", sha256 = "0b37744da71583203150a07364cde88a7f237fd93ccd091a5331a835a29cb951" }
+
+# Defconfig mappings
+[defconfigs]
+luckfox_rv1106_uboot = "luckfox_rv1106_uboot_defconfig"
+luckfox_rv1106_uboot_emmc_tb = "luckfox_rv1106_uboot_emmc_tb_defconfig"
+luckfox_rv1106_spi_nand_tb = "luckfox_rv1106_spi_nand_tb_defconfig"

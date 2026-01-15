@@ -1,0 +1,16 @@
+# U-Boot for Rockchip RV1106/RV1103 SoCs
+[package]
+name = "uboot-rockchip-rv110x"
+description = "U-Boot bootloader for Rockchip RV1106/RV1103 (Luckfox Pico)"
+license = "GPL-2.0"
+homepage = "https://github.com/LuckfoxTECH/luckfox-pico"
+category = "bootloader"
+architectures = ["arm"]
+
+[build]
+type = "uboot"
+cross_compile = "arm-linux-gnueabihf-"
+
+[options]
+defconfig = { type = "string", default = "luckfox_rv1106_uboot", description = "U-Boot defconfig", values = ["luckfox_rv1106_uboot", "luckfox_rv1106_uboot_emmc_tb", "luckfox_rv1106_spi_nand_tb"] }
+soc = { type = "string", default = "rv1106", description = "Target SoC variant", values = ["rv1106", "rv1103b"] }

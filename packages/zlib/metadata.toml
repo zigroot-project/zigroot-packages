@@ -1,0 +1,10 @@
+[package]
+name = "zlib"
+description = "Compression library"
+license = "Zlib"
+homepage = "https://zlib.net"
+category = "library"
+
+[build]
+type = "cmake"
+options = ["-DBUILD_SHARED_LIBS=OFF"]

@@ -1,0 +1,21 @@
+[package]
+name = "busybox"
+description = "Swiss army knife of embedded Linux - provides many common UNIX utilities"
+license = "GPL-2.0"
+homepage = "https://busybox.net"
+keywords = ["shell", "coreutils", "init", "utilities"]
+
+[build]
+type = "make"
+configure_args = ["defconfig"]
+make_args = ["CROSS_COMPILE=${CROSS_COMPILE}"]
+
+[install]
+files = [
+    { src = "busybox", dst = "/bin/busybox", mode = "755" },
+]
+
+[options.static]
+type = "bool"
+default = true
+description = "Build as static binary"

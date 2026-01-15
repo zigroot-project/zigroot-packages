@@ -1,0 +1,15 @@
+# Shared metadata for linux-rockchip-rv110x (all versions)
+
+[package]
+name = "linux-rockchip-rv110x"
+description = "Linux kernel for Rockchip RV1106/RV1103 (Luckfox Pico)"
+license = "GPL-2.0"
+homepage = "https://github.com/rockchip-linux/kernel"
+keywords = ["kernel", "linux", "rockchip", "rv1106", "rv1103", "luckfox"]
+arch = ["arm"]
+
+[build]
+type = "kernel"
+
+[kernel]
+defconfig = "rv1106_linux_defconfig"
