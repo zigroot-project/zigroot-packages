@@ -1,0 +1,17 @@
+--- a/configs/defconfig
++++ b/configs/defconfig
+@@ -1,3 +1,15 @@
++# Disable console-tools that need linux/kd.h (not available in musl)
++# CONFIG_KBD_MODE is not set
++# CONFIG_SETCONSOLE is not set
++# CONFIG_SHOWKEY is not set
++# CONFIG_OPENVT is not set
++# CONFIG_DEALLOCVT is not set
++# CONFIG_CHVT is not set
++# CONFIG_FGCONSOLE is not set
++# CONFIG_LOADFONT is not set
++# CONFIG_SETFONT is not set
++# CONFIG_SETKEYCODES is not set
+ #
+ # Automatically generated make config: don't edit
+ # Busybox version: 1.36.1
