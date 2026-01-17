@@ -7,13 +7,26 @@ keywords = ["shell", "coreutils", "init", "utilities"]
 
 [build]
 type = "make"
-configure_args = ["defconfig"]
-make_args = ["CROSS_COMPILE=${CROSS_COMPILE}"]
+configure_steps = ["make defconfig"]
+post_configure = [
+    # Enable static linking
+    "sed -i 's/# CONFIG_STATIC is not set/CONFIG_STATIC=y/' .config",
+    # Disable tc (needs kernel headers not in alpine)
+    "sed -i 's/CONFIG_TC=y/# CONFIG_TC is not set/' .config",
+]
+# make install creates _install directory with symlinks
+install_target = "install"
+install_dir = "_install"
+
+[build.env]
+# In sandbox: use native gcc; on host: handled by zigroot
+AR = "ar"
+RANLIB = "ranlib"
 
 [install]
-files = [
-    { src = "busybox", dst = "/bin/busybox", mode = "755" },
-]
+# Copy from _install directory to rootfs
+method = "copy"
+from = "_install"
 
 [options.static]
 type = "bool"
